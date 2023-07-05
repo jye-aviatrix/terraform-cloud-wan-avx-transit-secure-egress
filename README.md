@@ -3,6 +3,12 @@
 ## This module creates following architecture
 ![architecture](CloudWAN-Aviatrix-Transit-Secure-Egress.png)
 
+## NOTE:
+- Aviatrix Transit Gateway eth0 subnet: Public-gateway-and-firewall-mgmt, on it's route table, we need to assign Global network Inside CIDR Blocks point to core network ARN
+    - This is done through avx-transit-vpc-route-modification.tf, but we won't know the route table ID until the Aviatrix transit gets created. Aviatrix provider does not expose the route table ID, I could create a null resource using python but it will add more dependencies to the code.
+    - Please comment out the content of avx-transit-vpc-route-modification.tf, once the Aviatrix Transit complete creation, find the route table ID and populate variable avx_transit_Public-gateway-and-firewall-mgmt_subnet_rt_id, then uncomment this file and run terraform apply again.
+
+## What the code does create and how to validate?
 - One core global network
 - Global network have ASN range and Inside CIDR Blocks configured
 - An Core Network Edge location defined in policy for us-east-1
